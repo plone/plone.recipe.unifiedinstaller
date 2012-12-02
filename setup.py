@@ -2,7 +2,7 @@ import os
 from setuptools import setup, find_packages
 
 name = "plone.recipe.unifiedinstaller"
-version = '4.3'
+version = '4.3b1'
 
 
 def read(*rnames):
