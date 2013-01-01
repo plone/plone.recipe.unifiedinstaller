@@ -39,8 +39,8 @@ class Recipe:
 
         buildout_parts = self.buildout['buildout'].get('parts', '').split()
 
-        zeoserver = options.get('zeoserver')
-        if zeoserver is None:
+        self._zeoserver = options.get('zeoserver')
+        if self._zeoserver is None:
             # look for server definitions in the buildout
             servers = \
                 [part for part in buildout_parts
@@ -50,8 +50,8 @@ class Recipe:
             if len(servers) == 1:
                 self._zeoserver = servers[0]
 
-        clients = options.get('clients')
-        if clients is None:
+        self._clients = options.get('clients')
+        if self._clients is None:
             # look for client definitions in the buildout
             clients = [
                 part for part in buildout_parts
@@ -79,9 +79,6 @@ class Recipe:
 
         self.writeTemplate('readme_html', 'README.html')
         paths.append('README.html')
-
-        if self._zeoserver and self._clients in options:
-            paths = paths + self.writeZeoScripts()
 
         requirements, ws = self.egg.working_set(['plone.recipe.unifiedinstaller'])
         zc.buildout.easy_install.scripts(
