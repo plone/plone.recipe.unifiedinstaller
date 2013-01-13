@@ -87,8 +87,8 @@ class Recipe:
             ws, options['executable'], options['bin-directory'],
             extra_paths=[],
             arguments=(
-                """server='%s', clients=%s, location=r'%s', binDirectory=r'%s', fileStorage=r'%s'""" % \
-                    (self._zeoserver,
+                """server=%s, clients=%s, location=r'%s', binDirectory=r'%s', fileStorage=r'%s'""" % \
+                    (`self._zeoserver`,
                      self._clients.split(),
                      self._location,
                      self._bin_directory,
