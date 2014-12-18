@@ -62,7 +62,7 @@ class Recipe:
         # let's find a client port that we can use in the README
         client_ports = [
             self.buildout[part].get('http-address')
-            for part in clients
+            for part in self._clients.split()
             ]
         if client_ports and client_ports[0]:
             self._primary_port = client_ports[0]
