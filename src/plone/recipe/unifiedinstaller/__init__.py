@@ -45,7 +45,9 @@ class Recipe:
             servers = \
                 [part for part in buildout_parts
                  if self.buildout[part].get('recipe', '')
-                    in ('plone.recipe.zope2zeoserver', 'plone.recipe.zeoserver')
+                    in ('plone.recipe.zope2zeoserver', 
+                        'plone.recipe.zeoserver',
+                        'plone.recipe.zeoserver[zrs]')
                 ]
             if len(servers) == 1:
                 self._zeoserver = servers[0]
