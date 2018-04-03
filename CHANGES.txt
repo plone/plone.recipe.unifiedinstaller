@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+4.3.3 (unreleased)
+
+  - Fix operation when the var directory is stored in a non-default location.
+    [adaugherity]
+
 4.3.2
 
   - Fix bug that caused failure in buildout if clients were directly specified.

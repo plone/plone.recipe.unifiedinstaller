@@ -18,6 +18,7 @@ class Recipe:
         self._location = buildout['buildout']['directory']
         self._bin_directory = buildout['buildout']['bin-directory']
         self._parts_directory = buildout['buildout']['parts-directory']
+        self._var_dir = buildout['buildout']['var-dir']
         self._shell_command = options.get('shell-command', '/bin/sh')
         self._sudo_command = options.get('sudo-command', 'SUDOXXX')
         self._start_command = options.get('start-command', 'plonectl start')
@@ -29,7 +30,7 @@ class Recipe:
 
         # options['scripts'] = ''  # suppress script generation.
 
-        file_storage = options.get('file-storage', os.path.join(self._location, 'var', 'filestorage', 'Data.fs'))
+        file_storage = options.get('file-storage', os.path.join(self._var_dir, 'filestorage', 'Data.fs'))
         file_storage = os.path.join(self._location, file_storage)
         self._fileStorage = file_storage
         self._fileStorageDir = os.path.dirname(file_storage)
