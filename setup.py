@@ -2,7 +2,7 @@ import os
 from setuptools import setup, find_packages
 
 name = "plone.recipe.unifiedinstaller"
-version = '4.3.2'
+version = '5.2b1'
 
 
 def read(*rnames):
@@ -10,10 +10,10 @@ def read(*rnames):
 
 
 long_description = (
-        read('README.rst')
-        + '\n' +
-        read('CHANGES.txt')
-    )
+    read('README.rst') +
+    '\n' +
+    read('CHANGES.txt')
+)
 
 setup(
     name=name,
@@ -26,11 +26,11 @@ setup(
     keywords="zope2 buildout",
     url='https://svn.plone.org/svn/collective/buildout/plone.recipe.unifiedinstaller/trunk',
     classifiers=[
-      "License :: OSI Approved :: Zope Public License",
-      "Framework :: Buildout",
-      "Framework :: Zope2",
-      "Programming Language :: Python",
-      ],
+        "License :: OSI Approved :: Zope Public License",
+        "Framework :: Buildout",
+        "Framework :: Zope2",
+        "Programming Language :: Python",
+    ],
     packages=find_packages('src'),
     include_package_data=True,
     package_dir={'': 'src'},
@@ -39,4 +39,4 @@ setup(
     dependency_links=['http://download.zope.org/distribution/'],
     zip_safe=False,
     entry_points={'zc.buildout': ['default = %s:Recipe' % name]},
-    )
+)

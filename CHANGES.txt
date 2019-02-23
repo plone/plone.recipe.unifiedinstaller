@@ -1,6 +1,14 @@
 Change Log
 ==========
 
+5.2b1 (unreleased)
+
+- Big version change to match Plone target.
+  [smcmahon]
+
+- Python 3 compatability.
+  [smcmahon]
+
 4.3.3 (unreleased)
 
   - Fix operation when the var directory is stored in a non-default location.

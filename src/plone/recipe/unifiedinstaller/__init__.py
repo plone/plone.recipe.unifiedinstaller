@@ -32,8 +32,8 @@ class Recipe:
 
         file_storage = options.get('file-storage', os.path.join(self._var_dir, 'filestorage', 'Data.fs'))
         file_storage = os.path.join(self._location, file_storage)
-        self._fileStorage = file_storage
-        self._fileStorageDir = os.path.dirname(file_storage)
+        self._file_storage = file_storage
+        self._file_storage_dir = os.path.dirname(file_storage)
 
     def install(self):
         options = self.options
@@ -43,13 +43,14 @@ class Recipe:
         self._zeoserver = options.get('zeoserver')
         if self._zeoserver is None:
             # look for server definitions in the buildout
-            servers = \
-                [part for part in buildout_parts
-                 if self.buildout[part].get('recipe', '')
-                    in ('plone.recipe.zope2zeoserver', 
-                        'plone.recipe.zeoserver',
-                        'plone.recipe.zeoserver[zrs]')
-                ]
+            servers = [
+                part for part in buildout_parts
+                if self.buildout[part].get('recipe', '') in (
+                    'plone.recipe.zope2zeoserver',
+                    'plone.recipe.zeoserver',
+                    'plone.recipe.zeoserver[zrs]'
+                )
+            ]
             if len(servers) == 1:
                 self._zeoserver = servers[0]
 
@@ -59,25 +60,26 @@ class Recipe:
             clients = [
                 part for part in buildout_parts
                 if self.buildout[part].get('recipe', '') == 'plone.recipe.zope2instance'
-                ]
+            ]
             self._clients = '\n'.join(clients)
 
         # let's find a client port that we can use in the README
         client_ports = [
             self.buildout[part].get('http-address')
             for part in self._clients.split()
-            ]
+        ]
         if client_ports and client_ports[0]:
             self._primary_port = client_ports[0]
         else:
             self._primary_port = options.get('port')
 
         paths = [self.writeTemplate('admin_text', 'adminPassword.txt')]
-        os.chmod(paths[0], 0600)
+        os.chmod(paths[0], 0o600)
 
-        self.writeTemplate('parts_readme_text',
+        self.writeTemplate(
+            'parts_readme_text',
             os.path.join(self._location, self._parts_directory, 'README.txt')
-            )
+        )
         paths.append('%s/README.txt' % self._parts_directory)
 
         self.writeTemplate('readme_html', 'README.html')
@@ -90,14 +92,15 @@ class Recipe:
             ws, options['executable'], options['bin-directory'],
             extra_paths=[],
             arguments=(
-                """server=%s, clients=%s, location=r'%s', binDirectory=r'%s', fileStorage=r'%s'""" % \
-                    (`self._zeoserver`,
-                     self._clients.split(),
-                     self._location,
-                     self._bin_directory,
-                     self._fileStorage)
-                ),
-            )
+                """server=%s, clients=%s, location=r'%s', bin_directory=r'%s', file_storage=r'%s'""" % (
+                    repr(self._zeoserver),
+                    self._clients.split(),
+                    self._location,
+                    self._bin_directory,
+                    self._file_storage
+                )
+            ),
+        )
 
         return paths
 
@@ -112,21 +115,21 @@ class Recipe:
             sudo_bu = "sudo -u %s" % self._buildout_user
         options = self.options
         script = read(template) % dict(
-          bin_dir=self._bin_directory,
-          location=self._location,
-          zeoserver=options.get('zeoserver', ''),
-          clients=' '.join(options.get('clients', '').split()),
-          shell_cmd=self._shell_command,
-          start_cmd=self._start_command,
-          stop_cmd=self._stop_command,
-          password=self._user.split(':')[1],
-          user=self._user.split(':')[0],
-          port=self._primary_port,
-          sudo_effective_user=sudo_eu,
-          sudo_buildout_user=sudo_bu,
-          file_storage=self._fileStorage,
-          file_storage_dir=self._fileStorageDir,
-          )
+            bin_dir=self._bin_directory,
+            location=self._location,
+            zeoserver=options.get('zeoserver', ''),
+            clients=' '.join(options.get('clients', '').split()),
+            shell_cmd=self._shell_command,
+            start_cmd=self._start_command,
+            stop_cmd=self._stop_command,
+            password=self._user.split(':')[1],
+            user=self._user.split(':')[0],
+            port=self._primary_port,
+            sudo_effective_user=sudo_eu,
+            sudo_buildout_user=sudo_bu,
+            file_storage=self._file_storage,
+            file_storage_dir=self._file_storage_dir,
+        )
 
         open(filename, 'w').write(script)
 
